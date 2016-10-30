@@ -2,25 +2,17 @@ package filabanco;
 
 public class Atendimento {
 
-	private static filaTeste filaCliente;
+	private FilaClientes filaCliente;
 
-	public Atendimento(filaTeste fila) {
+	public Atendimento(FilaClientes fila) {
 		filaCliente = fila;
 	}
 
 	public void efetuaAtendimento(int numCaixa) {
 		if (numCaixa >= 1 && numCaixa <= 5)
-			atendePrioritaria();
+			filaCliente.dequeueClientePrioritario();
 		else
-			atendeNormal();
-	}
-
-	private void atendeNormal() {
-		filaCliente.removeClienteNormal();
-	}
-
-	private void atendePrioritaria() {
-		filaCliente.removeCliente();
+			filaCliente.dequeueClienteNormal();
 	}
 
 }

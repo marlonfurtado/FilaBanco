@@ -1,5 +1,11 @@
 package filabanco;
 
+/*
+ * Marlon Furtado
+ * T2 - AED I
+ * 23/10/2016
+ */
+
 import java.util.Random;
 
 public class AppBanco {
@@ -9,46 +15,55 @@ public class AppBanco {
 		String nome;
 		int idade;
 		int numCaixa;
-		int maxPessoasFila = 20;
+		int pessoasFila;
 
 		Random random = new Random();
 
-		filaTeste filaClientes = new filaTeste();
+		FilaClientes filaClientes = new FilaClientes();
 		Atendimento atendimento = new Atendimento(filaClientes);
 
+		pessoasFila = random.nextInt(40) + 1;
 
-		Cliente[] cliente = new Cliente[maxPessoasFila];
+		// Adicionar pessoas na fila
+		for (int i = 0; i < pessoasFila; i++) {
 
-		
-		// ADICIONAR PESSOAS NA FILA
-		for (int i = 0; i < maxPessoasFila; i++) {
 			nome = Cliente.gerarCliente();
-			idade = random.nextInt(100);
+			idade = Cliente.gerarIdade();
 			Cliente c = new Cliente(nome, idade);
 
-			cliente[i] = c;
+			filaClientes.enqueue(c);
 
-			filaClientes.addCliente(cliente[i]);
+			pessoasFila += random.nextInt(2);
+
 		}
 
-		
-		
-		
-		
-		for (int i = 1; i <= 10; i++) {
-			numCaixa = random.nextInt(10)+1;
-			System.out.println("Caixa: "+numCaixa+" livre\n");
+		// Atendimento dos clientes
+		for (int j = 1; j <= pessoasFila; j++) {
+
+			numCaixa = random.nextInt(10) + 1;
+
+			System.out.println(
+					"\nPessoas na fila: " + (filaClientes.sizeFilaPrioritaria() + filaClientes.sizeFilaNormal()));
+
+			System.out.println("Atendimento prioritário: " + filaClientes.sizeFilaPrioritaria());
+			System.out.println("Atendimento normal: " + filaClientes.sizeFilaNormal());
+			System.out.println("\nPróximo 'NORMAL'  " + filaClientes.headFilaNormal());
+			System.out.println("Próximo 'PRIORITÁRIO'  " + filaClientes.headFilaPrioritaria());
+
+			System.out.println("\nCAIXA " + numCaixa + " LIVRE");
+
+			if (numCaixa >= 1 && numCaixa <= 5)
+				System.out.println("\nCliente '" + filaClientes.headFilaPrioritaria().getNome() + "' ATENDIDO");
+
+			else
+				System.out.println("\nCliente '" + filaClientes.headFilaNormal().getNome() + "' ATENDIDO");
+
 			atendimento.efetuaAtendimento(numCaixa);
-			System.out.println("Quantidade de pessoas na fila: "+(filaClientes.tamanhoFilaPrioritaria()+filaClientes.tamanhoFilaNormal()));
-			System.out.println("Atendimento prioritário: "+filaClientes.tamanhoFilaPrioritaria());
-			System.out.println("Atendimento normal: "+filaClientes.tamanhoFilaNormal());
-			System.out.println("\nPrimeiro NORMAL "+filaClientes.headFilaNormal());
-			System.out.println("\nPrimeiro PRIORITARIO"+filaClientes.headFilaPrioritaria());
+
 			System.out.println("----------------------------\n");
+
 		}
 
-		
-		
 	}
 
 }

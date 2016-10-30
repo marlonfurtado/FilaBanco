@@ -1,6 +1,6 @@
 package filabanco;
 
-public class LinkedListOfCliente {
+public class LinkedListCliente {
 
 	private class Node {
 		Cliente cliente;
@@ -16,13 +16,13 @@ public class LinkedListOfCliente {
 	Node tail;
 	int count;
 
-	public LinkedListOfCliente() {
+	public LinkedListCliente() {
 		head = null;
 		tail = null;
 		count = 0;
 	}
 
-	// ADICIONAR ELEMENTO NO FIM DA LISTA
+	// Adiciona cliente
 	public void add(Cliente cliente) {
 		Node n = new Node(cliente);
 
@@ -37,7 +37,7 @@ public class LinkedListOfCliente {
 		count++;
 	}
 
-	// RETORNA ELEMENTO DO INDEX
+	// Retorna cliente na posição passada no parametro
 	public Cliente get(int index) {
 		if (index < 0 || index >= count) {
 			throw new IndexOutOfBoundsException();
@@ -54,7 +54,7 @@ public class LinkedListOfCliente {
 		return aux.cliente;
 	}
 
-	// TROCA E RETORNA ELEMENTO DO INDEX
+	// Troca e retorna o cliente na posição
 	public Cliente set(int index, Cliente cliente) {
 		if (index < 0 || index > count) {
 			throw new IndexOutOfBoundsException();
@@ -78,7 +78,7 @@ public class LinkedListOfCliente {
 		}
 	}
 
-	// RETORNA O INDEX DO ELEMENTO
+	// Retorna a posição do cliente
 	public int indexOf(Cliente cliente) {
 		Node aux = head;
 
@@ -91,7 +91,7 @@ public class LinkedListOfCliente {
 		return -1;
 	}
 
-	// REMOVE DO INDEX
+	// Remove cliente da posição passada
 	public Cliente removeByIndex(int index) {
 		if (index < 0 || index > count)
 			throw new IndexOutOfBoundsException();
@@ -122,7 +122,7 @@ public class LinkedListOfCliente {
 		return n.cliente;
 	}
 
-	// REMOVE O ELEMENTO
+	// Remove cliente
 	public boolean remove(Cliente cliente) {
 		if (count == 0)
 			throw new IndexOutOfBoundsException();
@@ -135,24 +135,24 @@ public class LinkedListOfCliente {
 
 			count--;
 			return true;
-		}
+		} else {
+			Node aux = head;
+			Node n = head.next;
 
-		Node aux = head;
-		Node n = head.next;
-
-		for (int i = 1; i < count; i++) {
-			if (n.cliente == cliente) {
-				aux.next = n.next;
-				count--;
-				if (n == tail)
-					tail = aux;
-				return true;
-			} else {
-				aux = aux.next;
-				n = n.next;
+			for (int i = 1; i < count; i++) {
+				if (n.cliente == cliente) {
+					aux.next = n.next;
+					count--;
+					if (n == tail)
+						tail = aux;
+					return true;
+				} else {
+					aux = aux.next;
+					n = n.next;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	public int size() {
